@@ -31,12 +31,63 @@ article div:nth-of-type(5) {
 } */
 
 header {
-  padding: 5rem;
+  padding: 5rem 20vw;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 3vw;
+  font-size: 1rem;
+}
+
+header div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+form {
+  transition: all 1s ease;
+}
+
+#user-name {
+  background-color: transparent;
+  padding: 1vh 2vw;
+  border: 1px solid black;
+  flex: 1;
+  display: none;
+  transition: all 1s ease;
 }
 
 #chose-mark {
   display: flex;
-  gap: 2rem;
+  gap: 3vw;
+}
+
+button {
+  background-color: transparent;
+  padding: 1vh 2vw;
+  border: 1px solid black;
+}
+
+input {
+  background-color: transparent;
+  padding: 1vh 2vw;
+  border: 1px solid black;
+  padding-left: 0.7vw;
+}
+
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 3vh;
+  display: flex;
+  justify-content: end;
+  gap: 1vw;
+}
+
+footer a {
+  padding-right: 3vw;
+  text-decoration: none;
+  font-size: 1.5rem;
+  color: rgb(49, 45, 45);
 }

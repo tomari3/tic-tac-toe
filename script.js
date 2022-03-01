@@ -28,13 +28,33 @@ const Game = (function () {
   const isAiChecked = document.querySelector('input[name="AI"]');
   const getName = document.querySelector('input[name="name');
   const submitName = document.getElementById("submit-name");
+  const nameForm = document.querySelector("form");
+  const userName = document.getElementById("user-name");
 
   function setName() {
     if ((getName.value.trim = "")) {
       return;
     }
     players[0].name = getName.value;
+    userName.textContent = players[0].name;
+    renderName();
   }
+
+  function renderName() {
+    nameForm.style.display = "none";
+    userName.style.display = "block";
+  }
+
+  function changeName() {
+    nameForm.style.display = "block";
+    userName.style.display = "none";
+    players[0].name = "";
+    userName.textContent = "";
+  }
+
+  userName.addEventListener("click", (e) => {
+    changeName();
+  });
 
   submitName.addEventListener("click", (e) => {
     e.preventDefault();
