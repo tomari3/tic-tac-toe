@@ -97,13 +97,196 @@ const Game = (function () {
   //     });
   //   })();
 
+  function minimaxAI() {
+    console.log(Gameboard.gameboard);
+    class Move {
+      constructor() {
+        let index;
+      }
+    }
+    let player = players[0].sign,
+      ai = players[1].sign;
+
+    function isMovesLeft() {
+      for (let i = 0; i < 9; i++) {
+        if (Gameboard.gameboard[i] == " ") {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function evaluate() {
+      function check3X(a, b, c) {
+        if (
+          Gameboard.gameboard[a] == players[0].sign &&
+          Gameboard.gameboard[b] == players[0].sign &&
+          Gameboard.gameboard[c] == players[0].sign
+        )
+          return true;
+      }
+      function check3O(a, b, c) {
+        if (
+          Gameboard.gameboard[a] == players[1].sign &&
+          Gameboard.gameboard[b] == players[1].sign &&
+          Gameboard.gameboard[c] == players[1].sign
+        )
+          return true;
+      }
+
+      if (
+        check3X(0, 1, 2) || // rows
+        check3X(3, 4, 5) ||
+        check3X(6, 7, 8) ||
+        check3X(0, 3, 6) || // columns
+        check3X(1, 4, 7) ||
+        check3X(2, 5, 8) ||
+        check3X(0, 4, 8) || // diagonals
+        check3X(2, 4, 6)
+      ) {
+        return -10;
+      } else if (
+        check3O(0, 1, 2) || // rows
+        check3O(3, 4, 5) ||
+        check3O(6, 7, 8) ||
+        check3O(0, 3, 6) || // columns
+        check3O(1, 4, 7) ||
+        check3O(2, 5, 8) ||
+        check3O(0, 4, 8) || // diagonals
+        check3O(2, 4, 6)
+      ) {
+        return +10;
+      }
+
+      return 0;
+    }
+
+    function minimax(depth, isMaximizingPlayer) {
+      let score = evaluate();
+
+      if (score == -10) {
+        return score;
+      }
+
+      if (score == 10) {
+        return score;
+      }
+
+      if (isMovesLeft() == false) {
+        return 0;
+      }
+
+      if (isMaximizingPlayer) {
+        let best = -1000;
+        for (let i = 0; i < 9; i++) {
+          if (Gameboard.gameboard[i] == " ") {
+            Gameboard.gameboard[i] = ai;
+
+            best = Math.max(
+              best,
+              minimax(Gameboard.gameboard, depth - 1, !isMaximizingPlayer)
+            );
+
+            Gameboard.gameboard[i] = " ";
+          }
+        }
+        return best;
+      } else {
+        let best = 1000;
+
+        for (let i = 0; i < 9; i++) {
+          if (Gameboard.gameboard[i] == " ") {
+            Gameboard.gameboard[i] = player;
+
+            best = Math.min(
+              best,
+              minimax(Gameboard.gameboard, depth + 1, !isMaximizingPlayer)
+            );
+
+            Gameboard.gameboard[i] = " ";
+          }
+        }
+        return best;
+      }
+    }
+    function findBestMove() {
+      let bestVal = -1000;
+      let bestMove = new Move();
+      bestMove.index = -1;
+
+      for (let i = 0; i < 9; i++) {
+        if (Gameboard.gameboard[i] == " ") {
+          Gameboard.gameboard[i] = ai;
+
+          let moveVal = minimax(Gameboard.gameboard, 0, false);
+
+          Gameboard.gameboard[i] = " ";
+
+          if (moveVal > bestVal) {
+            bestMove.index = i;
+            bestVal = moveVal;
+          }
+        }
+      }
+
+      return bestMove;
+    }
+    let bestMove = findBestMove();
+    console.log(bestMove);
+    return bestMove.index;
+  }
+
+  //   function evaluate() {
+  //     function check3X(a, b, c) {
+  //       if (
+  //         Gameboard.gameboard[a] == "X" &&
+  //         Gameboard.gameboard[b] == "X" &&
+  //         Gameboard.gameboard[c] == "X"
+  //       )
+  //         return true;
+  //     }
+  //     function check3O(a, b, c) {
+  //       if (
+  //         Gameboard.gameboard[a] == "O" &&
+  //         Gameboard.gameboard[b] == "O" &&
+  //         Gameboard.gameboard[c] == "O"
+  //       )
+  //         return true;
+  //     }
+
+  //     if (
+  //       check3X(0, 1, 2) || // rows
+  //       check3X(3, 4, 5) ||
+  //       check3X(6, 7, 8) ||
+  //       check3X(0, 3, 6) || // columns
+  //       check3X(1, 4, 7) ||
+  //       check3X(2, 5, 8) ||
+  //       check3X(0, 4, 8) || // diagonals
+  //       check3X(2, 4, 6)
+  //     ) {
+  //       return +10;
+  //     } else if (
+  //       check3O(0, 1, 2) || // rows
+  //       check3O(3, 4, 5) ||
+  //       check3O(6, 7, 8) ||
+  //       check3O(0, 3, 6) || // columns
+  //       check3O(1, 4, 7) ||
+  //       check3O(2, 5, 8) ||
+  //       check3O(0, 4, 8) || // diagonals
+  //       check3O(2, 4, 6)
+  //     ) {
+  //       return -10;
+  //     }
+  //     console.log("none");
+  //     return 0;
+  //   }
+
   function AIbot() {
     randomInput = Math.floor(Math.random() * 9);
     return randomInput;
   }
-
   function AIClick() {
-    let i = AIbot();
+    let i = minimaxAI();
     if (isGameOver() == true) {
       return;
     }
@@ -115,7 +298,6 @@ const Game = (function () {
       nextTurn();
     }
   }
-
   (function gridClick() {
     const grid = gameArticle.childNodes;
     grid.forEach((element, i) => {
