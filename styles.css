@@ -83,6 +83,7 @@ footer {
   display: flex;
   justify-content: end;
   gap: 1vw;
+  z-index: -1;
 }
 
 footer a {
