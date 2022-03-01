@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <form action="">
+          <label for="name"></label>
+          <input type="text" name="name" id="name" placeholder="name" />
+          <button id="submit-name">set</button>
+        </form>
+      </div>
+      <div id="chose-mark">
+        <div>
+          <label for="X">X</label>
+          <input type="radio" name="mark" id="X" checked />
+        </div>
+        <div>
+          <label for="O">O</label>
+          <input type="radio" name="mark" id="O" />
+        </div>
+      </div>
+      <div>
+        <label for="AI">AI</label>
+        <input type="checkbox" name="AI" id="AI" />
+      </div>
+      <button id="reset">reset</button>
+    </header>
+    <article id="game"></article>
+  </body>
+</html>
